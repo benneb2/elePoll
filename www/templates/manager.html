@@ -1,0 +1,31 @@
+<ion-view view-title="Manager" name="manager-view">
+  <ion-content class="padding">
+
+<div class="jumbotron text-center">
+			<h1>MANAGER <span class="label label-info">{{ polls.length }}</span></h1>
+		</div>
+
+		<div id="todo-list" class="row">
+			<div class="col-sm-4 col-sm-offset-4">
+
+				
+
+				<!-- LOOP OVER THE TODOS IN $scope.todos -->
+				<md-list ng-cloak>
+				  <md-subheader class="md-no-sticky">Users</md-subheader>
+				  <md-list-item class="md-2-line" ng-repeat="user in users" ng-click="openUser($index)">
+				  <div class="md-list-item-text">
+				     <h3>{{ user.userName }} {{ user.userSurname }}</h3>
+				      <p>{{user.userPollingStation}}</p>
+				      </div>
+				  </md-list-item>
+				</md-list>
+
+				<p class="text-center" ng-show="loading">
+					<span class="fa fa-spinner fa-spin fa-3x"></span>
+				</p>
+
+			</div>
+		</div>
+		  </ion-content>
+</ion-view>

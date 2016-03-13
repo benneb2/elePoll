@@ -1,0 +1,269 @@
+<ion-view view-title="Admin" name="admin-view">
+  <ion-content class="padding">
+   <div class="jumbotron text-center">
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" >Admin Console</a>
+                </div>
+
+                <ul class="nav navbar-nav">
+                    <li><a href ng-click="showUsers()" ><i class="fa fa-edit"></i> Users</a></li>
+                    <li><a href ng-click="showPollingStations()" ><i class="fa fa-home"></i> Polling Stations</a></li>
+                    <li><a href ng-click="showPolls()" ><i class="fa fa-list"></i> Polls</a></li>
+                </ul>
+            </div>
+            </nav>
+            <div ng-show="page == 'users'" >
+            	<md-content>
+            		<md-button ng-click="addUser()">Add User</md-button> 
+				    <md-list>
+				      <md-subheader class="md-no-sticky">Users</md-subheader>
+				      <md-list-item class="md-2-line" ng-repeat="user in users" ng-click="openUser($index)">
+				        <div class="md-list-item-text" layout="column">
+				          <h3>{{ user.userUserName }}</h3>
+				           <p>{{ user.userName }} {{ user.userSurname }}</p>
+				        </div>
+				        <md-divider ></md-divider>
+				      </md-list-item>
+				      <md-divider ></md-divider>
+				    </md-list>
+				  </md-content>
+            </div>
+            <div ng-show="page == 'user'" >
+            	<md-content>
+            	<div layout-gt-sm="row">
+			          <md-input-container class="md-block" flex-gt-sm>
+			            <label>Username</label>
+			            <input ng-model='user.userUserName' disabled ng-if="!newUser">
+			            <input ng-model='user.userUserName' ng-if="newUser">
+			          </md-input-container>
+		        </div>
+            	<div layout-gt-sm="row">
+					 <md-input-container class="md-block" flex-gt-sm>
+			            <label>Name</label>
+			            <input  ng-model='user.userName'>
+			          </md-input-container>
+		        </div>
+		     	<div layout-gt-sm="row">
+			    	<md-input-container class="md-block" flex-gt-sm>
+			            <label>Surname</label>
+			            <input  ng-model='user.userSurname'>
+			     	</md-input-container>
+		        </div>
+				<div layout-gt-sm="row">
+ 					<md-input-container class="md-block" flex-gt-sm>
+            			<label>Polling Station</label>
+            			<md-select ng-model="user.userPollingStation">
+              				<md-option ng-repeat="station in stations" value="{{station.stationName}}">
+                				{{station.stationName}}
+              				</md-option>
+            			</md-select>
+          			</md-input-container>
+          		</div>
+			    <div layout-gt-sm="row">
+			      	<md-input-container class="md-block" flex-gt-sm>
+			            <label>Email</label>
+			            <input  ng-model='user.userEmail'>
+			          </md-input-container>
+			      </div>
+			      <div layout-gt-sm="row">
+			      	<md-input-container class="md-block" flex-gt-sm>
+		            	<label>Password</label>
+		            	<input type="password" ng-model='user.userPassword'>
+		          	</md-input-container>
+		          </div>
+		          <div layout-gt-sm="row">
+ 					<md-input-container class="md-block" flex-gt-sm>
+            			<label>Role</label>
+            			<md-select ng-model="user.userRole">
+              				<md-option ng-repeat="role in roles" value="{{role}}">
+                				{{role}}
+              				</md-option>
+            			</md-select>
+          			</md-input-container>
+          		</div>
+          		<div layout-gt-sm="row" ng-show='user.userRole == "user"'>
+ 					<md-input-container class="md-block" flex-gt-sm>
+            			<label>Manager</label>
+            			<md-select ng-model="user.userManager">
+              				<md-option ng-repeat="manager in managers" value="{{manager.userUserName}}">
+                				{{manager.userUserName}}
+              				</md-option>
+            			</md-select>
+          			</md-input-container>
+          		</div>
+				</md-content>
+				<md-button ng-if="!newUser" ng-click="updateUser()">Update User</md-button> 
+				<md-button ng-if="newUser" ng-click="signup()">Add User</md-button> 
+            </div>
+            <div ng-show="page == 'stations'" >
+            	<md-content>
+            		<md-button ng-click="addStation()">Add Station</md-button> 
+				    <md-list>
+				      <md-subheader class="md-no-sticky">Polling Stations</md-subheader>
+				      <md-list-item class="md-2-line" ng-repeat="station in stations" ng-click="openStation($index)">
+				        <div class="md-list-item-text" layout="column">
+				          <h3>{{ station.stationName }}</h3>
+				           <p>{{ station.stationProvince }} </p>
+				        </div>
+				        <md-divider ></md-divider>
+				      </md-list-item>
+				      <md-divider ></md-divider>
+				    </md-list>
+				  </md-content>
+            </div>
+            <div ng-show="page == 'station'" >
+            	<md-content>
+            	<div layout-gt-sm="row">
+			          <md-input-container ng-show='!isNew' class="md-block" flex-gt-sm>
+			            <label>stationName</label>
+			            <input  ng-model='station.stationName' disabled>
+			          </md-input-container>
+			          <md-input-container ng-show='isNew' class="md-block" flex-gt-sm>
+			            <label>stationName</label>
+			            <input  ng-model='station.stationName' >
+			          </md-input-container>
+		        </div>
+				</md-content>
+				<md-button ng-show='isNew' ng-click="newStation()">Add Station</md-button> 
+				<md-button ng-show='!isNew' ng-click="delStation()">Delete Station</md-button> 
+            </div>
+            <div ng-show="page == 'polls'" >
+            	<md-content>
+            		<md-button ng-click="addPoll()">Add Poll</md-button> 
+				    <md-list>
+				      <md-subheader class="md-no-sticky">Surveys</md-subheader>
+				      <md-list-item class="md-2-line" ng-repeat="poll in polls" ng-click="openPoll($index)">
+				        <div class="md-list-item-text" layout="column">
+				          <h3>{{ poll.pollName }}</h3>
+				           <p>{{ poll.pollDesc }} </p>
+				        </div>
+				        <md-divider ></md-divider>
+				      </md-list-item>
+				      <md-divider ></md-divider>
+				    </md-list>
+				  </md-content>
+            </div>
+            <div ng-show="page == 'poll'" >
+            	<md-content>
+            	<div layout-gt-sm="row">
+			          <md-input-container ng-show='!isNew' class="md-block" flex-gt-sm>
+			            <label>Poll Name</label>
+			            <input  ng-model='poll.pollName' disabled>
+			          </md-input-container>
+			          <md-input-container ng-show='isNew' class="md-block" flex-gt-sm>
+			            <label>Poll Name</label>
+			            <input  ng-model='poll.pollName' >
+			          </md-input-container>
+		         </div>
+			     <div layout-gt-sm="row">
+ 					<md-input-container ng-show='!isNew' class="md-block" flex-gt-sm>
+			            <label>Poll Description</label>
+		            	<input  ng-model='poll.pollDesc' disabled>
+          			</md-input-container>
+          			<md-input-container ng-show='isNew' class="md-block" flex-gt-sm>
+			            <label>Poll Description</label>
+		            	<input  ng-model='poll.pollDesc' >
+          			</md-input-container>
+          		</div>
+          		<div layout-gt-sm="row">
+ 					<md-input-container ng-show='!isNew' class="md-block" flex-gt-sm>
+			            <md-button ng-click="openQuestions()">Questions</md-button> 
+          			</md-input-container>
+          		</div>
+				<md-button ng-show='isNew' ng-click="newPoll()">Add Poll</md-button> 
+				<md-button ng-show='!isNew' ng-click="delPoll()">Delete Poll</md-button> 
+            </div>
+            <div ng-show="page == 'questions'" >
+            	<md-content>
+            		<md-button ng-click="addQuestion()">Add Question</md-button> 
+				    <md-list>
+				      <md-subheader class="md-no-sticky">Questions</md-subheader>
+				      <md-list-item class="md-2-line" ng-repeat="question in questions" ng-click="openQuestion($index)">
+				        <div class="md-list-item-text" layout="column">
+				          <h3>{{ question.questionNumber }}</h3>
+				           <p>{{ question.questionQuestion }} </p>
+				        </div>
+				        <md-divider ></md-divider>
+				      </md-list-item>
+				      <md-divider ></md-divider>
+				    </md-list>
+				  </md-content>
+            </div>
+            <div ng-show="page == 'question'" ng-if="!isNew">
+            	<md-content>
+            	<div layout-gt-sm="row">
+			          <md-input-container class="md-block" flex-gt-sm>
+			            <label>Question Number</label>
+			            <input  ng-model='question.questionNumber' disabled>
+			          </md-input-container>
+		         </div>
+		         <div layout-gt-sm="row">
+			          <md-input-container class="md-block" flex-gt-sm>
+			            <label>Question</label>
+			            <input  ng-model='question.questionQuestion' disabled>
+			          </md-input-container>
+		         </div>
+		         <div layout-gt-sm="row">
+ 					<md-input-container class="md-block" flex-gt-sm>
+            			<label>Type</label>
+            			<md-select ng-model="question.questionType" disabled>
+              				<md-option ng-repeat="type in types" value="{{type}}">
+                				{{type}}
+              				</md-option>
+            			</md-select>
+          			</md-input-container>
+          		</div>
+          		<md-divider></md-divider>
+          		<div ng-show="question.questionType == 'multichoice'">
+          			<md-list>
+  						<md-list-item class="secondary-button-padding" ng-repeat="answer in question.questionAnswers track by $index">
+						    <input  ng-model='question.questionAnswers[$index]' style='width:90%' disabled>
+						</md-list-item>
+					</md-list>
+          		</div>
+          		<md-button ng-click="openQuestions()">Back</md-button> 
+				<md-button ng-click="delQuestion()">Delete Question</md-button> 
+            </div>
+            <div ng-show="page == 'question'" ng-if="isNew">
+            	<md-content>
+            	<div layout-gt-sm="row">
+			          <md-input-container class="md-block" flex-gt-sm>
+			            <label>Question Number</label>
+			            <input  ng-model='question.questionNumber' >
+			          </md-input-container>
+		         </div>
+		         <div layout-gt-sm="row">
+			          <md-input-container class="md-block" flex-gt-sm>
+			            <label>Question</label>
+			            <input  ng-model='question.questionQuestion' >
+			          </md-input-container>
+		         </div>
+		         <div layout-gt-sm="row">
+ 					<md-input-container class="md-block" flex-gt-sm>
+            			<label>Type</label>
+            			<md-select ng-model="question.questionType">
+              				<md-option ng-repeat="type in types" value="{{type}}">
+                				{{type}}
+              				</md-option>
+            			</md-select>
+          			</md-input-container>
+          		</div>
+          		<md-divider></md-divider>
+          		<div ng-show="question.questionType == 'multichoice'">
+          			<md-button ng-click="addAnswer()">Add Answer</md-button> 
+          			<md-list>
+  						<md-list-item class="secondary-button-padding" ng-repeat="answer in question.questionAnswers track by $index">
+						    <input  ng-model='question.questionAnswers[$index]' style='width:90%'>
+						    <md-button class="md-secondary" ng-click="deleteAnswer($index)">Delete</md-button>
+						</md-list-item>
+					</md-list>
+          		</div>
+          		<md-button ng-click="openQuestions()">Back</md-button> 
+				<md-button ng-click="newQuestion()">Add Question</md-button> 
+            </div>
+
+    </div>
+      </ion-content>
+</ion-view>

@@ -1,0 +1,36 @@
+<ion-view view-title="questions" name="questions-view">
+  <ion-content class="padding">
+
+
+  <md-button class="md-raised">Hello There!</md-button>
+	<md-list ng-cloak>
+  <md-subheader class="md-no-sticky">Polls</md-subheader>
+  <md-list-item class="md-4-line" ng-repeat="question in questions" >
+  <div class="md-list-item-text" style="width:100%">
+    <table style="width:100%">
+      <tr>
+        <td style="float:left;nowrap">
+          {{question.questionNumber}}.
+        </td>
+        <td width="99%" align="left">
+          {{question.questionQuestion}}
+        </td>
+        <td style="float:right;nowrap">
+          <div ng-if="question.questionType == 'multichoice'">
+            <select ng-model="question.questionResult">
+              <option ng-repeat="answer in question.questionAnswers" value="{{answer}}">{{answer}}</option>
+            </select>
+          </div>
+          <div ng-if="question.questionType == 'number'">
+            <input type="number" step="1" ng-model="question.questionResult"/>
+          </div>
+        </td>
+      </tr>
+    </table>
+      </div>
+  </md-list-item>
+</md-list>
+<md-button ng-click="submit()">Submit</md-button> 
+
+  </ion-content>
+</ion-view>

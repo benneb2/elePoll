@@ -1,0 +1,19 @@
+<ion-view view-title="Forms" name="login-view">
+  <ion-content class="padding">
+
+
+<!-- <div class="jumbotron text-center">
+			<h1>2016 Election Poll <span class="label label-info">{{ polls.length }}</span></h1>
+		</div> -->
+
+
+  <h4 class="content padding double-padding-x">Forms</h4>
+  <div class="list">
+                <a class="item item-icon-left" ng-repeat="poll in polls" ng-click="pollClick(poll._id)">
+                    <i class="icon fa fa-bank" ></i>
+                    <h3 style="padding-left:10pt" >{{ poll.pollName }}</h3>
+      				<p style="padding-left:10pt">{{poll.pollDesc}}</p>
+                </a>
+            </div>
+  </ion-content>
+</ion-view>
